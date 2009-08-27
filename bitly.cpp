@@ -53,7 +53,7 @@ QString Bitly::shorten( const QString &url )
 
     if ( KIO::NetAccess::synchronousRun( job, 0, &data ) ) {
         QString output(data);
-        QRegExp rx( QString( "<textarea [^>]*>(.*)</textarea>" ) );
+        QRegExp rx( QString( "\"shortUrl\": \"([^\"]*)\"," ) );
         kDebug() << output;
         rx.setMinimal(true);
         rx.indexIn(output);
