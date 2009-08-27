@@ -46,14 +46,15 @@ QString Bitly::shorten( const QString &url )
     QByteArray data;//output
     KUrl reqUrl( "http://bit.ly/" );
     reqUrl.addQueryItem( "s", "" );
-    reqUrl.addQueryItem( "keyword", "" );    
+    reqUrl.addQueryItem( "keyword", "" );
     reqUrl.addQueryItem( "url", KUrl( url ).url() );
 
     KIO::Job *job = KIO::get( reqUrl, KIO::Reload, KIO::HideProgressInfo );
 
     if ( KIO::NetAccess::synchronousRun( job, 0, &data ) ) {
         QString output(data);
-        QRegExp rx( QString( "<textarea>(.+)</textarea>" ) );
+        QRegExp rx( QString( "<textarea [^>]*>(.*)</textarea>" ) );
+        kDebug() << output;
         rx.setMinimal(true);
         rx.indexIn(output);
         output = rx.cap(1);
