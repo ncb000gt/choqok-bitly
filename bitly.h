@@ -1,7 +1,7 @@
 /*
-This file is part of Choqok, the KDE micro-blogging client
+This file is part of the choqok-bitly plugin for Choqok.
 
-Copyright (C) 2008-2009 Mehrdad Momeny <mehrdad.momeny@gmail.com>
+Copyright (C) 2009 Nick Campbell <nicholas.j.campbell@gmail.com>
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License as
@@ -26,7 +26,7 @@ along with this program; if not, see http://www.gnu.org/licenses/
 #include <shortener.h>
 #include <QString>
 /**
-@author Mehrdad Momeny \<mehrdad.momeny@gmail.com\>
+@author Nick Campbell \<nicholas.j.campbell@gmail.com\>
 */
 class Bitly : public Choqok::Shortener
 {

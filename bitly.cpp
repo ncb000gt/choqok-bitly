@@ -1,7 +1,7 @@
 /*
-This file is part of Choqok, the KDE micro-blogging client
+This file is part of the choqok-bitly plugin for Choqok.
 
-Copyright (C) 2008-2009 Mehrdad Momeny <mehrdad.momeny@gmail.com>
+Copyright (C) 2009 Nick Campbell <nicholas.j.campbell@gmail.com>
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License as
@@ -32,7 +32,7 @@ along with this program; if not, see http://www.gnu.org/licenses/
 
 typedef KGenericFactory<Bitly> MyPluginFactory;
 static const KAboutData aboutdata("choqok_bitly", 0, ki18n("Bit.ly Shortener") , "0.1" );
-K_EXPORT_COMPONENT_FACTORY( choqok_tighturl, MyPluginFactory( &aboutdata )  )
+K_EXPORT_COMPONENT_FACTORY( choqok_bitly, MyPluginFactory( &aboutdata )  )
 
 Bitly::Bitly( QObject *parent, const QStringList &  args  )
 : Choqok::Shortener( MyPluginFactory::componentData(), parent )
@@ -57,10 +57,6 @@ QString Bitly::shorten( const QString &url )
         rx.setMinimal(true);
         rx.indexIn(output);
         output = rx.cap(1);
-        //kDebug()<<output;
-        //rx.setPattern( QString( "href=[\'\"](.+)[\'\"]" ) );
-        //rx.indexIn(output);
-        //output = rx.cap(1);
         kDebug() << "Short url is: " << output;
         if(!output.isEmpty()) {
             return output;
