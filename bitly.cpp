@@ -44,19 +44,19 @@ QString Bitly::shorten( const QString &url )
 {
     kDebug()<<"Using bit.ly";
     QByteArray data;//output
-    KUrl reqUrl = null;
+    KUrl reqUrl;
     const QString apiname = KGlobal::config()->group("Advanced").readEntry("ShortenPlugin_APIName", QString());
     const QString apikey = KGlobal::config()->group("Advanced").readEntry("ShortenPlugin_APIKey", QString());
     kDebug() << "API Login: " << apiname;
     kDebug() << "API Key: " << apikey;
     if ( ! ( apiname.isEmpty() && apikey.isEmpty() ) ) {
-	reqUrl = new KUrl( "http://api.bit.ly/shorten" );
+	reqUrl.setHost( QString( "http://api.bit.ly/shorten" ) );
 	reqUrl.addQueryItem( "version", "2.0.1" );
 	reqUrl.addQueryItem( "longUrl", KUrl( url ).url() );
 	reqUrl.addQueryItem( "login", apiname );
 	reqUrl.addQueryItem( "apiKey", apikey );
     } else {
-	reqUrl = new KUrl( "http://bit.ly/" );
+	reqUrl.setHost( QString( "http://bit.ly/" ) );
 	reqUrl.addQueryItem( "s", "" );
 	reqUrl.addQueryItem( "keyword", "" );
 	reqUrl.addQueryItem( "url", KUrl( url ).url() );
