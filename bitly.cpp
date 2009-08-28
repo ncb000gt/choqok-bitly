@@ -29,6 +29,7 @@ along with this program; if not, see http://www.gnu.org/licenses/
 #include <KAboutData>
 #include <KGenericFactory>
 #include <kglobal.h>
+#include <kconfigbase.h>
 
 typedef KGenericFactory<Bitly> MyPluginFactory;
 static const KAboutData aboutdata("choqok_bitly", 0, ki18n("Bit.ly Shortener") , "0.1" );
