@@ -17,8 +17,12 @@ Choqok
 To Use
 ======
 
-* Get the [Choqok source](http://choqok.gnufolks.org/download/)
-* Pull this source down
-* Symlink this into the choqok/plugins/shorteners/ directory inside the Choqok source directory
-* Add the line 'addSubdirectory(bitly)' to the choqok/plugins/shorteners/CMakeLists.txt file
-* Follow the instructions in choqok/README to compile and install Choqok from source
+* Get the source at: http://gitorious.org/~ncb000gt/choqok/ncb000gt-choqok
+* Load the submodule for this.
+* Follow the choqok build instructions.
+
+Known Issues
+============
+
+* There is a problem where if you put a url in before specifying the API Login and API Key that it will use the "scraping" method rather than the API. I'm looking into it. To solve this, put your information in, save it, and then paste urls OR just restart the client.
+* There is very little error handling. So, it's likely that the url shortening could have problems that aren't handled.
