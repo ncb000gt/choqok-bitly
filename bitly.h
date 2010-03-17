@@ -25,6 +25,8 @@ along with this program; if not, see http://www.gnu.org/licenses/
 
 #include <shortener.h>
 #include <QString>
+#include <QVariant>
+
 /**
 @author Nick Campbell \<nicholas.j.campbell@gmail.com\>
 */
@@ -32,9 +34,10 @@ class Bitly : public Choqok::Shortener
 {
     Q_OBJECT
 public:
-    Bitly( QObject *parent, const QStringList &  args  );
+    Bitly( QObject *parent, const QVariantList& args );
     ~Bitly();
-public slots:
+
+public:
     QString shorten( const QString &url );
 };
 

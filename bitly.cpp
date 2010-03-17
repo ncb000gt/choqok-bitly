@@ -1,24 +1,25 @@
 /*
-This file is part of the choqok-bitly plugin for Choqok.
+    This file is part of Choqok-bitly, a plugin to the KDE micro-blogging
+    client Choqok.
 
-Copyright (C) 2009 Nick Campbell <nicholas.j.campbell@gmail.com>
+    Copyright (C) 2009-2010 Nick Campbell <nicholas.j.campbell@gmail.com>
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation; either version 2 of
-the License or (at your option) version 3 or any later version
-accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy
-defined in Section 14 of version 3 of the license.
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License as
+    published by the Free Software Foundation; either version 2 of
+    the License or (at your option) version 3 or any later version
+    accepted by the membership of KDE e.V. (or its successor approved
+    by the membership of KDE e.V.), which shall act as a proxy
+    defined in Section 14 of version 3 of the license.
 
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with this program; if not, see http://www.gnu.org/licenses/
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, see http://www.gnu.org/licenses/
 */
 
 #include "bitly.h"
@@ -31,39 +32,46 @@ along with this program; if not, see http://www.gnu.org/licenses/
 #include <kglobal.h>
 #include <ksharedconfig.h>
 #include <kconfiggroup.h>
+#include <choqokuiglobal.h>
+#include <bitlysettings.h>
 
-typedef KGenericFactory<Bitly> MyPluginFactory;
-static const KAboutData aboutdata("choqok_bitly", 0, ki18n("Bit.ly Shortener") , "0.1" );
-K_EXPORT_COMPONENT_FACTORY( choqok_bitly, MyPluginFactory( &aboutdata )  )
+K_PLUGIN_FACTORY( MyPluginFactory, registerPlugin < Bitly > (); )
+K_EXPORT_PLUGIN( MyPluginFactory( "choqok_bitly" ) )
 
-Bitly::Bitly( QObject *parent, const QStringList &  args  )
+Bitly::Bitly( QObject *parent, const QVariantList& )
 : Choqok::Shortener( MyPluginFactory::componentData(), parent )
 {
-    Q_UNUSED(args)
+}
+Bitly::~Bitly()
+{
 }
 
 QString Bitly::shorten( const QString &url )
 {
     kDebug()<<"Using bit.ly";
-    QByteArray data;//output
+    QByteArray data;
     KUrl reqUrl;
-    const QString apiname = KGlobal::config()->group("Advanced").readEntry("ShortenPlugin_APIName", QString());
-    const QString apikey = KGlobal::config()->group("Advanced").readEntry("ShortenPlugin_APIKey", QString());
+    const QString apiname = BitlySettings::apiname().toLatin1();
+    const QString apikey = BitlySettings::apikey().toLatin1();
     kDebug() << "API Login: " << apiname;
     kDebug() << "API Key: " << apikey;
     if ( ! ( apiname.isEmpty() && apikey.isEmpty() ) ) {
-	reqUrl.setHost( QString( "http://api.bit.ly/shorten" ) );
-	reqUrl.addQueryItem( "version", "2.0.1" );
-	reqUrl.addQueryItem( "longUrl", KUrl( url ).url() );
-	reqUrl.addQueryItem( "login", apiname );
-	reqUrl.addQueryItem( "apiKey", apikey );
+	KUrl buildUrl ( "http://api.bit.ly/shorten" );
+	buildUrl.addQueryItem( "version", "2.0.1" );
+	buildUrl.addQueryItem( "longUrl", KUrl( url ).url() );
+	buildUrl.addQueryItem( "login", apiname );
+	buildUrl.addQueryItem( "apiKey", apikey );
+	reqUrl = buildUrl;
     } else {
-	reqUrl.setHost( QString( "http://bit.ly/" ) );
-	reqUrl.addQueryItem( "s", "" );
-	reqUrl.addQueryItem( "keyword", "" );
-	reqUrl.addQueryItem( "url", KUrl( url ).url() );
+	//XXX: this will break if they change the results in their page.
+	KUrl buildUrl ( "http://bit.ly" );
+	buildUrl.addQueryItem( "s", "" );
+	buildUrl.addQueryItem( "keyword", "" );
+	buildUrl.addQueryItem( "url", KUrl( url ).url() );
+	reqUrl = buildUrl;
     }
 
+    kDebug() << "Url: " << reqUrl;
     KIO::Job *job = KIO::get( reqUrl, KIO::Reload, KIO::HideProgressInfo );
 
     if ( KIO::NetAccess::synchronousRun( job, 0, &data ) ) {
@@ -82,9 +90,3 @@ QString Bitly::shorten( const QString &url )
     }
     return url;
 }
-
-Bitly::~Bitly()
-{
-}
-
-#include "bitly.moc"

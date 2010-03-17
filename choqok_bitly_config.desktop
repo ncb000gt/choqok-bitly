@@ -1,0 +1,29 @@
+[Desktop Entry]
+Icon=kaboodle
+Type=Service
+X-KDE-ServiceTypes=KCModule
+
+X-KDE-Library=kcm_choqok_bitly
+X-KDE-FactoryName=kcm_choqok_bitly
+X-KDE-ParentApp=choqok_bitly
+X-KDE-ParentComponents=choqok_bitly
+
+Name=Bitly
+Name[da]=Bitly
+Name[de]=Bitly
+Name[en_GB]=Bitly
+Name[es]=Bitly
+Name[et]=Bitly
+Name[fr]=Bitly
+Name[it]=Bitly
+Name[nb]=Bitly
+Name[nds]=Bitly
+Name[nl]=Bitly
+Name[pt]=Bitly
+Name[pt_BR]=Bitly
+Name[ro]=Bitly
+Name[sv]=Bitly
+Name[uk]=Bitly
+Name[x-test]=xxBitlyxx
+Name[zh_CN]=Bitly
+Comment=Use bitly.com
